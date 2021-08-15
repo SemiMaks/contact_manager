@@ -9,6 +9,7 @@ ADD = 2
 CHANGE = 3
 DELETE = 4
 QUIT = 5
+line = '-' * 30
 
 # Глобальная константа для имени файла.
 FILENAME = 'contacts.dat'
@@ -40,3 +41,54 @@ def main():
 
     # Сохранить словарь mycontacts в файл.
     save_contacts(mycontacts)
+
+
+def load_contacts():
+    try:
+        # Попробовать открыть файл contacts.dat.
+        input_file = open(FILENAME, 'rb')
+
+        # Расконсервировать словарь.
+        contact_dct = pickle.load(input_file)
+
+        # Закрыть файл phone_inventory.dat.
+        input_file.close()
+    except IOError:
+        # Ошибка открытия файла,
+        # создание пустого словаря.
+        contact_dct = {}
+
+    # Вернуть словарь.
+    return contact_dct
+
+# Функция выводит меню и получает
+# проверенный на допустимость выбранный пользователем пункт.
+def get_menu_choice():
+    print(line)
+    print('Меню')
+    print(line)
+    print('1 - Найти контактное лицо.')
+    print('2 - Добавить новое контактное лицо.')
+    print('3 - Изменить существующий контакт.')
+    print('4 - Удалить контактное лицо.')
+    print('5 - Выйти из программы.')
+    print(line)
+
+    # Получить выбранный пользователем пункт.
+    choice = int(input('Введите выбранный пункт: '))
+
+    # Проверка на допустимость.
+    while choice < 1 or choice > 5:
+        choice = int(input('Введите выбранный пункт: '))
+
+    # Возвращаем выбранный пользователем пункт.
+    return choice
+
+# Функция look_up отыскивает элемент
+# в заданном словаре.
+
+def look_up(mycontacts):
+    # Получить искомое имя.
+    name = input('Введите имя: ')
+
+    # Отыскать его в словаре.
