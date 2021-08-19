@@ -61,6 +61,7 @@ def load_contacts():
     # Вернуть словарь.
     return contact_dct
 
+
 # Функция выводит меню и получает
 # проверенный на допустимость выбранный пользователем пункт.
 def get_menu_choice():
@@ -84,6 +85,7 @@ def get_menu_choice():
     # Возвращаем выбранный пользователем пункт.
     return choice
 
+
 # Функция look_up отыскивает элемент
 # в заданном словаре.
 
@@ -92,3 +94,79 @@ def look_up(mycontacts):
     name = input('Введите имя: ')
 
     # Отыскать его в словаре.
+    print(mycontacts.get(name, 'Такого имени нет.'))
+
+
+# Функция add добавляет новую запись
+# в указанный словарь.
+def add(mycontacts):
+    # Получить контактную информацию.
+    name = input('Имя: ')
+    phone = input('Телефон: ')
+    email = input('Электронный адрес: ')
+
+    # Создаём именованную запись с объектом Contact.
+    entry = contact.Contact(name, phone, email)
+
+    # Если имя в словаре не существует, то
+    # добавить его в качестве ключа со связанным с ним
+    # значением в виде объекта.
+    if name not in mycontacts:
+        mycontacts[name] = entry
+        print('Запись добавлена')
+    else:
+        print('Это имя уже существует.')
+
+
+# Функция change изменяет существующую
+# запись в указанном словаре.
+def change(mycontacts):
+    # Получить искомое имя.
+    name = input('Введите имя: ')
+
+    if name in mycontacts:
+        # Получить новый телефонный номер.
+        phone = input('Введите новый телефонный номер:  ')
+
+        # Получить новый электронный адрес.
+        email = input('Введите новый электронный адрес: ')
+
+        # Создать именованную записьс объектом Contact.
+        entry = contact.Contact(name, phone, email)
+
+        # Обновить запись.
+        mycontacts[name] = entry
+        print('Запись обновлена.')
+    else:
+        print('Это имя не найдено.')
+
+
+# Функция delete удаляет запись
+# из указанного словаря.
+def delete(mycontacts):
+    # Получить искомое имя.
+    name = input('Введите имя: ')
+
+    # Если имя найдено, то удалить запись.
+    if name in mycontacts:
+        del mycontacts[name]
+        print('Запись удалена.')
+    else:
+        print('Это имя не найдено.')
+
+
+# Функция save_contacts консервирует указанный
+# объект и сохраняет его в файле контактов.
+def save_contacts(mycontacts):
+    # Открыть файл для записи.
+    output_file = open(FILENAME, 'wb')
+
+    # Законсервировать словарь и сохранить его.
+    pickle.dump(mycontacts, output_file)
+
+    # Закрыть файл.
+    output_file.close()
+
+
+# Вызвать главную функцию.
+main()
